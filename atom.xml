@@ -2,11 +2,15 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.zjp666.cf</id>
     <title>慕风小站</title>
-    <updated>2020-11-10T13:55:52.327Z</updated>
+    <updated>2020-11-10T14:20:00.390Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://www.zjp666.cf"/>
     <link rel="self" href="https://www.zjp666.cf/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
+    <subtitle>如果一个人热衷于议论是非，说明他本身就有问题。
+
+　　每个人都有每个人的处境，冷暖自知。
+
+一个旁观者如果横加议论，说明他说话随便，乱下判断，这样的人走到哪里，哪里就是是非的旋涡，还是敬而远之的好。</subtitle>
     <logo>https://www.zjp666.cf/images/avatar.png</logo>
     <icon>https://www.zjp666.cf/favicon.ico</icon>
     <rights>All rights reserved 2020, 慕风小站</rights>

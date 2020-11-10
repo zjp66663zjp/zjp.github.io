@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>关于 | 慕风小站</title>
+<title>源码包安装详解 | 慕风小站</title>
 <meta name="description" content="温故而知新">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -86,24 +86,56 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">关于</h2>
+          <h2 class="post-title">源码包安装详解</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2019-01-25</span>
+            <span><i class="icon-calendar-outline"></i> 2020-11-10</span>
             
           </div>
           <div class="post-content">
-            <blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
-</blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<h2 id="联系我呀">📬 联系我呀</h2>
+            <p>#源码包安装方法：此处以httpd服务为例</p>
+<p>[root@localhost ~]#setenforce 0<br>
+#临时关闭沙盒</p>
+<p>[root@localhost ~]# systemctl stop firewall<br>
+Failed to stop firewall.service: Unit firewall.service not loaded.<br>
+#关闭防火墙</p>
+<p>[root@localhost ~]# vim /etc/sysconfig/network-scripts/ifcfg-ens33<br>
+#配置ip地址</p>
+<p>[root@localhost ~]# systemctl restart network<br>
+#重启网络服务</p>
+<p>[root@localhost ~]# ifconfig<br>
+#查看IP地址是否更改</p>
+<pre><code>                                               以上为必备条件
+</code></pre>
+<p>[root@localhost ~]# tar -zxvf httpd-2.2.17.tar.gz -C /usr/src/<br>
+#归档解压软件包并指定路径<br>
+#-z：gzip文件      -x：解压         -v：详细信息         -f：归档        -C指定路径</p>
+<p>[root@localhost ~]# cd /usr/src/httpd-2.2.17/<br>
+#转到刚解压的软件下</p>
+<p>[root@localhost httpd-2.2.17]# ./configure --prefix=/usr/local/httpd<br>
+#配置并指定安装路径   ./configure :默认配置   --prefix=安装路径</p>
+<p>[root@localhost httpd-2.2.17]# make &amp;&amp; make install<br>
+#编译并安装  make：编译     make install：安装编译</p>
+<p>[root@localhost httpd-2.2.17]# vim /usr/local/httpd/conf/httpd.conf<br>
+#编辑主配置文件      把第97行#去掉启用配置{方法：打开大写按97G}</p>
+<p>[root@localhost httpd-2.2.17]# /usr/local/httpd/bin/apachectl  start<br>
+#开启apachectl 服务</p>
+<p>[root@localhost httpd-2.2.17]# vim /usr/local/httpd/htdocs/index.html<br>
+默认网页后台路径{更改网页显示信息}</p>
+<pre><code>                                                                                      by:zjp
+                                                                                 2020-11-10</code></pre>
 
           </div>
         </div>
 
         
+          <div class="next-post">
+            <a class="purple-link" href="https://www.zjp666.cf/post/hello-gridea/">
+              <h3 class="post-title">
+                下一篇：Hello Gridea
+              </h3>
+            </a>
+          </div>
+          
       </div>
 
       

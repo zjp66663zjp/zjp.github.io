@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.zjp666.cf</id>
     <title>慕风小站</title>
-    <updated>2020-11-10T12:21:06.360Z</updated>
+    <updated>2020-11-10T13:41:09.025Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://www.zjp666.cf"/>
     <link rel="self" href="https://www.zjp666.cf/atom.xml"/>
@@ -10,6 +10,45 @@
     <logo>https://www.zjp666.cf/images/avatar.png</logo>
     <icon>https://www.zjp666.cf/favicon.ico</icon>
     <rights>All rights reserved 2020, 慕风小站</rights>
+    <entry>
+        <title type="html"><![CDATA[源码包安装详解]]></title>
+        <id>https://www.zjp666.cf/post/yuan-ma-bao-an-zhuang-xiang-jie/</id>
+        <link href="https://www.zjp666.cf/post/yuan-ma-bao-an-zhuang-xiang-jie/">
+        </link>
+        <updated>2020-11-10T13:38:41.000Z</updated>
+        <content type="html"><![CDATA[<p>#源码包安装方法：此处以httpd服务为例</p>
+<p>[root@localhost ~]#setenforce 0<br>
+#临时关闭沙盒</p>
+<p>[root@localhost ~]# systemctl stop firewall<br>
+Failed to stop firewall.service: Unit firewall.service not loaded.<br>
+#关闭防火墙</p>
+<p>[root@localhost ~]# vim /etc/sysconfig/network-scripts/ifcfg-ens33<br>
+#配置ip地址</p>
+<p>[root@localhost ~]# systemctl restart network<br>
+#重启网络服务</p>
+<p>[root@localhost ~]# ifconfig<br>
+#查看IP地址是否更改</p>
+<pre><code>                                               以上为必备条件
+</code></pre>
+<p>[root@localhost ~]# tar -zxvf httpd-2.2.17.tar.gz -C /usr/src/<br>
+#归档解压软件包并指定路径<br>
+#-z：gzip文件      -x：解压         -v：详细信息         -f：归档        -C指定路径</p>
+<p>[root@localhost ~]# cd /usr/src/httpd-2.2.17/<br>
+#转到刚解压的软件下</p>
+<p>[root@localhost httpd-2.2.17]# ./configure --prefix=/usr/local/httpd<br>
+#配置并指定安装路径   ./configure :默认配置   --prefix=安装路径</p>
+<p>[root@localhost httpd-2.2.17]# make &amp;&amp; make install<br>
+#编译并安装  make：编译     make install：安装编译</p>
+<p>[root@localhost httpd-2.2.17]# vim /usr/local/httpd/conf/httpd.conf<br>
+#编辑主配置文件      把第97行#去掉启用配置{方法：打开大写按97G}</p>
+<p>[root@localhost httpd-2.2.17]# /usr/local/httpd/bin/apachectl  start<br>
+#开启apachectl 服务</p>
+<p>[root@localhost httpd-2.2.17]# vim /usr/local/httpd/htdocs/index.html<br>
+默认网页后台路径{更改网页显示信息}</p>
+<pre><code>                                                                                      by:zjp
+                                                                                 2020-11-10</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://www.zjp666.cf/post/hello-gridea/</id>

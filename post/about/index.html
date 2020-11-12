@@ -1,119 +1,136 @@
 <html>
-  <head>
+
+<head>
+    <!-- 防止浏览器缓存 -->
+<meta http-equiv="pragma" content="no-cache"> 
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
+<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+
+<!-- ?????? -->
+    
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
     <meta charset="utf-8" />
+<meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>关于 | 沐风纸鸢的博客</title>
-<link rel="shortcut icon" href="https://www.zjp666.cf/favicon.ico?v=1605146468168">
-<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<title>
+    关于 | 沐风纸鸢的博客
+</title>
+<link rel="shortcut icon" href="https://www.zjp666.cf/favicon.ico?v=1605149071050">
+<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://www.zjp666.cf/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="关于 | 沐风纸鸢的博客 - Atom Feed" href="https://www.zjp666.cf/atom.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<!-- js -->
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://www.zjp666.cf/media/js/jquery.sticky-sidebar.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
 
 
 
-    <meta name="description" content="
-欢迎来到我的小站呀，很高兴遇见你！🤝
+    
+    
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    
 
-🏠 关于本站
-本站由GitHub搭建，文章不定时发布。
-👨‍💻 博主是谁
-沐风纸鸢QQ：2906519407
-⛹ 兴趣爱好
-追剧
-📬 联系我呀
-微信：19861246683
-..." />
-    <meta name="keywords" content="" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  </head>
-  <body>
+    
+    
+</head>
+
+<body>
     <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://www.zjp666.cf">
-  <img class="avatar" src="https://www.zjp666.cf/images/avatar.png?v=1605146468168" alt="">
-  </a>
-  <h1 class="site-title">
-    沐风纸鸢的博客
-  </h1>
-  <p class="site-description">
-    如果一个人热衷于议论是非，说明他本身就有问题。
-
-　　每个人都有每个人的处境，冷暖自知。
-
-一个旁观者如果横加议论，说明他说话随便，乱下判断，这样的人走到哪里，哪里就是是非的旋涡，还是敬而远之的好。
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          关于
-        </a>
-      
-    
-      
-        <a href="https://www.zjp666.cf/post/jing-xuan-gui-dao-bi-zhi" class="menu">
-          壁纸
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-        <a href="zjp66663zjp" target="_blank">
-          <i class="ri-github-line"></i>
-        </a>
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-  </div>
+        <div class="header">
+    <div class="nav">
+        <div class="logo">
+            <a href="https://www.zjp666.cf">
+                <img class="avatar" src="https://www.zjp666.cf/images/avatar.png?v=1605149071050" alt="">
+            </a>
+            <div class="site-title">
+                <h1>
+                    沐风纸鸢的博客
+                </h1>
+            </div>
+        </div>
+        <span class="menu-btn fa fa-align-justify"></span>
+        <div class="menu-container">
+            <ul>
+                
+                    
+                            <li>
+                                <a href="/" class="menu">
+                                    首页
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/archives" class="menu">
+                                    归档
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/tags" class="menu">
+                                    标签
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/post/about" class="menu">
+                                    关于
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="https://www.zjp666.cf/post/jing-xuan-gui-dao-bi-zhi" class="menu">
+                                    壁纸
+                                </a>
+                            </li>
+                            
+                                
+            </ul>
+        </div>
+    </div>
 </div>
 
-        <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              关于
-            </h2>
-            <div class="post-info">
-              <span>
-                2019-01-25
-              </span>
-              <span>
-                1 min read
-              </span>
-              
-            </div>
-            
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <blockquote>
+<script>
+    $(document).ready(function() {
+        $(".menu-btn").click(function() {
+            $(".menu-container").slideToggle();
+        });
+        $(window).resize(function() {
+
+            if (window.matchMedia('(min-width: 960px)').matches) {
+                $(".menu-container").css('display', 'block')
+            } else {
+                $(".menu-container").css('display', 'none')
+            }
+
+        });
+    });
+</script>
+
+        <div id="main-content" class="post-detail main-container">
+            <!-- left -->
+            <div id="content" class="main-container-left">
+                <article class="post i-card">
+                    <h2 class="post-title">
+                        关于
+                    </h2>
+                    <div class="post-info">
+                        <time class="post-time">2019-01-25</time>
+                        
+                    </div>
+                    
+                    <div class="post-content">
+                        <blockquote>
 <p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
 </blockquote>
 <p>🏠 关于本站<br>
@@ -125,93 +142,107 @@
 <p>📬 联系我呀<br>
 微信：19861246683</p>
 
-              </div>
-              <div class="toc-container">
+                    </div>
+                </article>
+                <!--  -->
                 
-              </div>
-            </div>
-          </article>
-        </div>
-
-        
-
-        
-          
-            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-<div id="gitalk-container"></div>
-
+                <div id="disqus_thread"></div>
+                <div id="gitalk-container"></div>
+                <div id="vcomments"></div>
+                <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> |
+  <a class="rss" href="https://www.zjp666.cf/atom.xml" target="_blank">RSS</a>
+</div>
 <script>
-
-  var gitalk = new Gitalk({
-    clientID: '704721285bf68261ffba',
-    clientSecret: '6fb8a54a73a0728bf19ec040bd885a0c0faef0a4',
-    repo: 'zjp.github.io',
-    owner: 'zjp66663zjp',
-    admin: ['zjp66663zjp'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
 </script>
 
-          
+            </div>
+            <!-- middle -->
+            <div class="main-container-middle"></div>
+            <!-- right -->
+            <div id="sidebar" class="main-container-right">
+                
+                <!-- id-card -->
+                
+    <div class="id_card i-card">
+        <div class="id_card-avatar" style="background-image: url(https://www.zjp666.cf/images/avatar.png?v=1605149071050)">
+        </div>
+        <h1 class="id_card-title">
+            沐风纸鸢的博客
+        </h1>
+        <h2 class="id_card-description">
+            如果一个人热衷于议论是非，说明他本身就有问题。
 
-          
-        
+　　每个人都有每个人的处境，冷暖自知。
 
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
-  <a class="rss" href="https://www.zjp666.cf/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
-</div>
+一个旁观者如果横加议论，说明他说话随便，乱下判断，这样的人走到哪里，哪里就是是非的旋涡，还是敬而远之的好。
+        </h2>
+        <!--  -->
+        <div class="id_card-sns">
+            <!-- github -->
+            
+                <a href="zjp66663zjp" target="_blank" rel="noopener noreferrer"><i
+                class="fa fa-github"></i></a>
+                
+                    <!-- twitter -->
+                    
+                            <!-- weibo -->
+                            
+                                    <!-- facebook -->
+                                    
 
-      </div>
+        </div>
     </div>
+    
+                
 
-    <script>
-      hljs.initHighlightingOnLoad()
+                </div>
+            </div>
 
-      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+            </div>
+            <script>
+                $('#sidebar').stickySidebar({
+                    topSpacing: 80,
+                    // bottomSpacing: 60
+                });
+            </script>
+            <!-- ?????? -->
+            <script>
+                hljs.initHighlightingOnLoad()
+              </script>
+            
+            
+            <script>
+    window.onload = function() {
+        var gitalk = new Gitalk({
+            clientID: '704721285bf68261ffba',
+            clientSecret: '6fb8a54a73a0728bf19ec040bd885a0c0faef0a4',
+            repo: 'zjp.github.io',
+            owner: 'zjp66663zjp',
+            admin: ['zjp66663zjp'],
+            id: (location.pathname).substring(0, 49), // Ensure uniqueness and length less than 50
+            distractionFreeMode: false // Facebook-like distraction free mode
+        })
 
-      // This should probably be throttled.
-      // Especially because it triggers during smooth scrolling.
-      // https://lodash.com/docs/4.17.10#throttle
-      // You could do like...
-      // window.addEventListener("scroll", () => {
-      //    _.throttle(doThatStuff, 100);
-      // });
-      // Only not doing it here to keep this Pen dependency-free.
+        gitalk.render('gitalk-container')
+    }
+</script>
+            
 
-      window.addEventListener("scroll", event => {
-        let fromTop = window.scrollY;
+            
+            
+</body>
 
-        mainNavLinks.forEach((link, index) => {
-          let section = document.getElementById(decodeURI(link.hash).substring(1));
-          let nextSection = null
-          if (mainNavLinks[index + 1]) {
-            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-          }
-          if (section.offsetTop <= fromTop) {
-            if (nextSection) {
-              if (nextSection.offsetTop > fromTop) {
-                link.classList.add("current");
-              } else {
-                link.classList.remove("current");    
-              }
-            } else {
-              link.classList.add("current");
-            }
-          } else {
-            link.classList.remove("current");
-          }
-        });
-      });
-
-    </script>
-  </body>
 </html>

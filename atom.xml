@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.zjp666.cf</id>
-    <title>慕风小站</title>
-    <updated>2020-11-11T00:36:02.976Z</updated>
+    <title>沐风纸鸢的博客</title>
+    <updated>2020-11-12T01:00:09.792Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://www.zjp666.cf"/>
     <link rel="self" href="https://www.zjp666.cf/atom.xml"/>
@@ -13,7 +13,7 @@
 一个旁观者如果横加议论，说明他说话随便，乱下判断，这样的人走到哪里，哪里就是是非的旋涡，还是敬而远之的好。</subtitle>
     <logo>https://www.zjp666.cf/images/avatar.png</logo>
     <icon>https://www.zjp666.cf/favicon.ico</icon>
-    <rights>All rights reserved 2020, 慕风小站</rights>
+    <rights>All rights reserved 2020, 沐风纸鸢的博客</rights>
     <entry>
         <title type="html"><![CDATA[精选鬼刀壁纸]]></title>
         <id>https://www.zjp666.cf/post/jing-xuan-gui-dao-bi-zhi/</id>

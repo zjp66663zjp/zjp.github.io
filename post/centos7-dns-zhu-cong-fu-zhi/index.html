@@ -1,0 +1,363 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>centos7 DNS主从复制 | 沐风纸鸢的博客</title>
+<link rel="shortcut icon" href="https://www.zjp666.cf/favicon.ico?v=1605261331061">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://www.zjp666.cf/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="centos7 DNS主从复制 | 沐风纸鸢的博客 - Atom Feed" href="https://www.zjp666.cf/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="📝📝📝📝📝📝📝
+第一台关防火墙 沙盒
+[root@localhost ~]# setenforce 0
+[root@localhost ~]#
+[root@localhost ~]# systemctl stop firewa..." />
+    <meta name="keywords" content="Linux,随心笔记" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://www.zjp666.cf">
+  <img class="avatar" src="https://www.zjp666.cf/images/avatar.png?v=1605261331061" alt="">
+  </a>
+  <h1 class="site-title">
+    沐风纸鸢的博客
+  </h1>
+  <p class="site-description">
+    如果一个人热衷于议论是非，说明他本身就有问题。
+
+　　每个人都有每个人的处境，冷暖自知。
+
+一个旁观者如果横加议论，说明他说话随便，乱下判断，这样的人走到哪里，哪里就是是非的旋涡，还是敬而远之的好。
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+      
+        <a href="https://www.zjp666.cf/post/jing-xuan-gui-dao-bi-zhi" class="menu">
+          壁纸
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="zjp66663zjp" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              centos7 DNS主从复制
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-11-13
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://www.zjp666.cf/tag/HNJNaz1KB/" class="post-tag">
+                  # Linux
+                </a>
+              
+                <a href="https://www.zjp666.cf/tag/fcLFL9VXu/" class="post-tag">
+                  # 随心笔记
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://www.zjp666.cf/post-images/centos7-dns-zhu-cong-fu-zhi.jpg" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>📝📝📝📝📝📝📝<br>
+第一台关防火墙 沙盒<br>
+[root@localhost ~]# setenforce 0<br>
+[root@localhost ~]#<br>
+[root@localhost ~]# systemctl stop firewalld<br>
+[root@localhost ~]# vim /etc/sysconfig/network-scripts/ifcfg-ens33<br>
+TYPE=Ethernet<br>
+BOOTPROTO=static<br>
+DEFROUTE=yes<br>
+PEERDNS=yes<br>
+PEERROUTES=yes<br>
+IPV4_FAILURE_FATAL=no<br>
+IPV6INIT=yes<br>
+IPV6_AUTOCONF=yes<br>
+IPV6_DEFROUTE=yes<br>
+IPV6_PEERDNS=yes<br>
+IPV6_PEERROUTES=yes<br>
+IPV6_FAILURE_FATAL=no<br>
+IPV6_ADDR_GEN_MODE=stable-privacy<br>
+NAME=ens33<br>
+#UUID=a143ab4f-711f-4c6e-aab0-4289fbda9db6<br>
+DEVICE=ens33<br>
+ONBOOT=yes<br>
+IPADDR=192.168.1.1<br>
+NETMASK=255.255.255.0<br>
+GATEWAY=192.168.1.100<br>
+DNS1=192.168.1.1<br>
+[root@localhost ~]# systemctl restart network<br>
+[root@localhost ~]# ifconfig<br>
+ens33: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500<br>
+inet 192.168.1.1  netmask 255.255.255.0  broadcast 192.168.1.255<br>
+[root@localhost ~]# mount /dev/cdrom /media/<br>
+[root@localhost ~]# cd /media/Packages/<br>
+[root@localhost Packages]# rpm -ivh bind-9.9.4-37.el7.x86_64.rpm<br>
+[root@localhost Packages]# vim /etc/named.conf<br>
+编辑<br>
+options {<br>
+listen-on port 53 { 192.168.1.1; };<br>
+listen-on-v6 port 53 { ::1; };<br>
+directory       &quot;/var/named&quot;;<br>
+dump-file       &quot;/var/named/data/cache_dump.db&quot;;<br>
+statistics-file &quot;/var/named/data/named_stats.txt&quot;;<br>
+memstatistics-file &quot;/var/named/data/named_mem_stats.txt&quot;;<br>
+allow-query     { any; };<br>
+[root@localhost Packages]# vim /etc/named.rfc1912.zones<br>
+在<br>
+zone上面的那一行输入6yy复制6行<br>
+在末行输入p粘贴复制的6行<br>
+把复制的6行修改成</p>
+<p>zone &quot;baidu.com&quot; IN {<br>
+type master;<br>
+file &quot;baidu.com.zone&quot;;<br>
+allow-update { any; };允许下载从服务器ip<br>
+};<br>
+在<br>
+zone上面的那一行输入6yy复制6行<br>
+在末行输入p粘贴复制的6行<br>
+把复制的6行修改成<br>
+zone &quot;1.168.192.in-addr.arpa&quot; IN {<br>
+type master;<br>
+file &quot;192.168.1.arpa&quot;;<br>
+allow-update { any; };允许下载从服务器ip<br>
+};<br>
+[root@localhost Packages]# cd /var/named<br>
+[root@localhost named]# cp -p named.localhost baidu.com.zone（正向）<br>
+[root@localhost named]# cp -p named.localhost 192.168.1.arpa（反向）<br>
+[root@localhost named]# vim baidu.com.zone（正向）<br>
+<img src="https://www.zjp666.cf/post-images/1605260735554.png" alt="" loading="lazy"><br>
+[root@localhost named]# vim 192.168.1.arpa（反向）<br>
+<img src="https://www.zjp666.cf/post-images/1605260850561.png" alt="" loading="lazy"><br>
+[root@localhost named]# systemctl restart named （重启）</p>
+<p>第二台centos7（从服务器）（关防火墙沙河<br>
+[root@localhost ~]# setenforce 0<br>
+[root@localhost ~]# systemctl stop firewalld<br>
+[root@localhost ~]#  vim /etc/sysconfig/network-scripts/ifcfg-ens33<br>
+TYPE=Ethernet<br>
+BOOTPROTO=static<br>
+DEFROUTE=yes<br>
+PEERDNS=yes<br>
+PEERROUTES=yes<br>
+IPV4_FAILURE_FATAL=no<br>
+IPV6INIT=yes<br>
+IPV6_AUTOCONF=yes<br>
+IPV6_DEFROUTE=yes<br>
+IPV6_PEERDNS=yes<br>
+IPV6_PEERROUTES=yes<br>
+IPV6_FAILURE_FATAL=no<br>
+IPV6_ADDR_GEN_MODE=stable-privacy<br>
+NAME=ens33<br>
+#UUID=a143ab4f-711f-4c6e-aab0-4289fbda9db6<br>
+DEVICE=ens33<br>
+ONBOOT=yes<br>
+IPADDR=192.168.1.2<br>
+NETMASK=255.255.255.0<br>
+DNS1=192.168.1.1<br>
+[root@localhost ~]# systemctl restart network<br>
+[root@localhost ~]# ifconfig<br>
+ens33: flags=4099&lt;UP,BROADCAST,MULTICAST&gt;  mtu 1500<br>
+inet 192.168.1.10  netmask 255.255.255.0  broadcast 192.168.1.255<br>
+[root@localhost ~]# mount /dev/cdrom /media/<br>
+[root@localhost ~]# cd /media/Packages/<br>
+[root@localhost Packages]# rpm -ivh bind-9.9.4-37.el7.x86_64.rpm<br>
+[root@localhost Packages]# vim /etc/named.conf<br>
+编辑<br>
+options {<br>
+listen-on port 53 { 192.168.1.10; };<br>
+listen-on-v6 port 53 { ::1; };<br>
+directory       &quot;/var/named&quot;;<br>
+dump-file       &quot;/var/named/data/cache_dump.db&quot;;<br>
+statistics-file &quot;/var/named/data/named_stats.txt&quot;;<br>
+memstatistics-file &quot;/var/named/data/named_mem_stats.txt&quot;;<br>
+allow-query     { any; };<br>
+[root@localhost Packages]# vim /etc/named.rfc1912.zones<br>
+编辑<br>
+在<br>
+zone上面的那一行输入6yy复制6行<br>
+在末行输入p粘贴复制的6行<br>
+把复制的6行修改成<br>
+zone &quot;baidu.com&quot; IN {<br>
+type slave;类型改为从配置文件<br>
+masters {192.168.1.1;};指定主服务器<br>
+file &quot;slaves/baidu.com.zone&quot;;<br>
+allow-update { none; };<br>
+};<br>
+在<br>
+zone上面的那一行输入6yy复制6行<br>
+在末行输入p粘贴复制的6行<br>
+把复制的6行修改成<br>
+zone &quot;1.168.192.in-addr.arpa&quot; IN {<br>
+type slave;类型改为从配置文件<br>
+masters {192.168.1.1;};指定主服务器<br>
+file &quot;slaves/192.168.1.arpa&quot;;<br>
+allow-update { none; };<br>
+};<br>
+[root@localhost Packages]# service named start<br>
+[root@localhost Packages]# cd /var/named/slaves/<br>
+[root@localhost slaves]# ls<br>
+1.168.192.arpa  baidu.com.zone<br>
+Centos访问（两台都能访问）<br>
+nslookup 192.168.1.1<br>
+Nslookup www.baidu.com<br>
+Nslookup  192.168.1.2<br>
+Ns lookup  www.baidu.com<br>
+Win7（客户端）<br>
+<img src="https://www.zjp666.cf/post-images/1605261004307.png" alt="" loading="lazy"></p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://www.zjp666.cf/post/apache-fu-wu-de-da-jian-ji-you-hua/">
+              <h3 class="post-title">
+                apache服务的搭建及优化
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '704721285bf68261ffba',
+    clientSecret: '6fb8a54a73a0728bf19ec040bd885a0c0faef0a4',
+    repo: 'zjp.github.io',
+    owner: 'zjp66663zjp',
+    admin: ['zjp66663zjp'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://www.zjp666.cf/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

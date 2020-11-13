@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.zjp666.cf</id>
     <title>沐风纸鸢的博客</title>
-    <updated>2020-11-13T01:15:32.350Z</updated>
+    <updated>2020-11-13T09:55:37.885Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://www.zjp666.cf"/>
     <link rel="self" href="https://www.zjp666.cf/atom.xml"/>
@@ -14,6 +14,159 @@
     <logo>https://www.zjp666.cf/images/avatar.png</logo>
     <icon>https://www.zjp666.cf/favicon.ico</icon>
     <rights>All rights reserved 2020, 沐风纸鸢的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[centos7 DNS主从复制]]></title>
+        <id>https://www.zjp666.cf/post/centos7-dns-zhu-cong-fu-zhi/</id>
+        <link href="https://www.zjp666.cf/post/centos7-dns-zhu-cong-fu-zhi/">
+        </link>
+        <updated>2020-11-13T09:43:26.000Z</updated>
+        <content type="html"><![CDATA[<p>📝📝📝📝📝📝📝<br>
+第一台关防火墙 沙盒<br>
+[root@localhost ~]# setenforce 0<br>
+[root@localhost ~]#<br>
+[root@localhost ~]# systemctl stop firewalld<br>
+[root@localhost ~]# vim /etc/sysconfig/network-scripts/ifcfg-ens33<br>
+TYPE=Ethernet<br>
+BOOTPROTO=static<br>
+DEFROUTE=yes<br>
+PEERDNS=yes<br>
+PEERROUTES=yes<br>
+IPV4_FAILURE_FATAL=no<br>
+IPV6INIT=yes<br>
+IPV6_AUTOCONF=yes<br>
+IPV6_DEFROUTE=yes<br>
+IPV6_PEERDNS=yes<br>
+IPV6_PEERROUTES=yes<br>
+IPV6_FAILURE_FATAL=no<br>
+IPV6_ADDR_GEN_MODE=stable-privacy<br>
+NAME=ens33<br>
+#UUID=a143ab4f-711f-4c6e-aab0-4289fbda9db6<br>
+DEVICE=ens33<br>
+ONBOOT=yes<br>
+IPADDR=192.168.1.1<br>
+NETMASK=255.255.255.0<br>
+GATEWAY=192.168.1.100<br>
+DNS1=192.168.1.1<br>
+[root@localhost ~]# systemctl restart network<br>
+[root@localhost ~]# ifconfig<br>
+ens33: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500<br>
+inet 192.168.1.1  netmask 255.255.255.0  broadcast 192.168.1.255<br>
+[root@localhost ~]# mount /dev/cdrom /media/<br>
+[root@localhost ~]# cd /media/Packages/<br>
+[root@localhost Packages]# rpm -ivh bind-9.9.4-37.el7.x86_64.rpm<br>
+[root@localhost Packages]# vim /etc/named.conf<br>
+编辑<br>
+options {<br>
+listen-on port 53 { 192.168.1.1; };<br>
+listen-on-v6 port 53 { ::1; };<br>
+directory       &quot;/var/named&quot;;<br>
+dump-file       &quot;/var/named/data/cache_dump.db&quot;;<br>
+statistics-file &quot;/var/named/data/named_stats.txt&quot;;<br>
+memstatistics-file &quot;/var/named/data/named_mem_stats.txt&quot;;<br>
+allow-query     { any; };<br>
+[root@localhost Packages]# vim /etc/named.rfc1912.zones<br>
+在<br>
+zone上面的那一行输入6yy复制6行<br>
+在末行输入p粘贴复制的6行<br>
+把复制的6行修改成</p>
+<p>zone &quot;baidu.com&quot; IN {<br>
+type master;<br>
+file &quot;baidu.com.zone&quot;;<br>
+allow-update { any; };允许下载从服务器ip<br>
+};<br>
+在<br>
+zone上面的那一行输入6yy复制6行<br>
+在末行输入p粘贴复制的6行<br>
+把复制的6行修改成<br>
+zone &quot;1.168.192.in-addr.arpa&quot; IN {<br>
+type master;<br>
+file &quot;192.168.1.arpa&quot;;<br>
+allow-update { any; };允许下载从服务器ip<br>
+};<br>
+[root@localhost Packages]# cd /var/named<br>
+[root@localhost named]# cp -p named.localhost baidu.com.zone（正向）<br>
+[root@localhost named]# cp -p named.localhost 192.168.1.arpa（反向）<br>
+[root@localhost named]# vim baidu.com.zone（正向）<br>
+<img src="https://www.zjp666.cf/post-images/1605260735554.png" alt="" loading="lazy"><br>
+[root@localhost named]# vim 192.168.1.arpa（反向）<br>
+<img src="https://www.zjp666.cf/post-images/1605260850561.png" alt="" loading="lazy"><br>
+[root@localhost named]# systemctl restart named （重启）</p>
+<p>第二台centos7（从服务器）（关防火墙沙河<br>
+[root@localhost ~]# setenforce 0<br>
+[root@localhost ~]# systemctl stop firewalld<br>
+[root@localhost ~]#  vim /etc/sysconfig/network-scripts/ifcfg-ens33<br>
+TYPE=Ethernet<br>
+BOOTPROTO=static<br>
+DEFROUTE=yes<br>
+PEERDNS=yes<br>
+PEERROUTES=yes<br>
+IPV4_FAILURE_FATAL=no<br>
+IPV6INIT=yes<br>
+IPV6_AUTOCONF=yes<br>
+IPV6_DEFROUTE=yes<br>
+IPV6_PEERDNS=yes<br>
+IPV6_PEERROUTES=yes<br>
+IPV6_FAILURE_FATAL=no<br>
+IPV6_ADDR_GEN_MODE=stable-privacy<br>
+NAME=ens33<br>
+#UUID=a143ab4f-711f-4c6e-aab0-4289fbda9db6<br>
+DEVICE=ens33<br>
+ONBOOT=yes<br>
+IPADDR=192.168.1.2<br>
+NETMASK=255.255.255.0<br>
+DNS1=192.168.1.1<br>
+[root@localhost ~]# systemctl restart network<br>
+[root@localhost ~]# ifconfig<br>
+ens33: flags=4099&lt;UP,BROADCAST,MULTICAST&gt;  mtu 1500<br>
+inet 192.168.1.10  netmask 255.255.255.0  broadcast 192.168.1.255<br>
+[root@localhost ~]# mount /dev/cdrom /media/<br>
+[root@localhost ~]# cd /media/Packages/<br>
+[root@localhost Packages]# rpm -ivh bind-9.9.4-37.el7.x86_64.rpm<br>
+[root@localhost Packages]# vim /etc/named.conf<br>
+编辑<br>
+options {<br>
+listen-on port 53 { 192.168.1.10; };<br>
+listen-on-v6 port 53 { ::1; };<br>
+directory       &quot;/var/named&quot;;<br>
+dump-file       &quot;/var/named/data/cache_dump.db&quot;;<br>
+statistics-file &quot;/var/named/data/named_stats.txt&quot;;<br>
+memstatistics-file &quot;/var/named/data/named_mem_stats.txt&quot;;<br>
+allow-query     { any; };<br>
+[root@localhost Packages]# vim /etc/named.rfc1912.zones<br>
+编辑<br>
+在<br>
+zone上面的那一行输入6yy复制6行<br>
+在末行输入p粘贴复制的6行<br>
+把复制的6行修改成<br>
+zone &quot;baidu.com&quot; IN {<br>
+type slave;类型改为从配置文件<br>
+masters {192.168.1.1;};指定主服务器<br>
+file &quot;slaves/baidu.com.zone&quot;;<br>
+allow-update { none; };<br>
+};<br>
+在<br>
+zone上面的那一行输入6yy复制6行<br>
+在末行输入p粘贴复制的6行<br>
+把复制的6行修改成<br>
+zone &quot;1.168.192.in-addr.arpa&quot; IN {<br>
+type slave;类型改为从配置文件<br>
+masters {192.168.1.1;};指定主服务器<br>
+file &quot;slaves/192.168.1.arpa&quot;;<br>
+allow-update { none; };<br>
+};<br>
+[root@localhost Packages]# service named start<br>
+[root@localhost Packages]# cd /var/named/slaves/<br>
+[root@localhost slaves]# ls<br>
+1.168.192.arpa  baidu.com.zone<br>
+Centos访问（两台都能访问）<br>
+nslookup 192.168.1.1<br>
+Nslookup www.baidu.com<br>
+Nslookup  192.168.1.2<br>
+Ns lookup  www.baidu.com<br>
+Win7（客户端）<br>
+<img src="https://www.zjp666.cf/post-images/1605261004307.png" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[apache服务的搭建及优化]]></title>
         <id>https://www.zjp666.cf/post/apache-fu-wu-de-da-jian-ji-you-hua/</id>

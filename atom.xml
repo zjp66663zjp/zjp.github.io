@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.zjp666.cf</id>
     <title>沐风纸鸢的博客</title>
-    <updated>2020-11-13T00:57:12.017Z</updated>
+    <updated>2020-11-13T01:07:42.961Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://www.zjp666.cf"/>
     <link rel="self" href="https://www.zjp666.cf/atom.xml"/>
@@ -14,6 +14,133 @@
     <logo>https://www.zjp666.cf/images/avatar.png</logo>
     <icon>https://www.zjp666.cf/favicon.ico</icon>
     <rights>All rights reserved 2020, 沐风纸鸢的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[apache服务的搭建及优化]]></title>
+        <id>https://www.zjp666.cf/post/apache-fu-wu-de-da-jian-ji-you-hua/</id>
+        <link href="https://www.zjp666.cf/post/apache-fu-wu-de-da-jian-ji-you-hua/">
+        </link>
+        <updated>2020-11-13T00:59:04.000Z</updated>
+        <content type="html"><![CDATA[<p>一、准备环境<br>
+📜📜📜📜📜📜📜<br>
+1、关闭防火墙：</p>
+<p>[root@localhost ~]# systemctl stop firewalld.service</p>
+<p>2、关闭SELinux：</p>
+<p>[root@localhost ~]# vim /etc/selinux/config<br>
+修改：<br>
+SELINUX=disabled</p>
+<p>[root@localhost ~]# setenforce 0</p>
+<p>3、卸载默认安装的apache：</p>
+<p>[root@localhost ~]# rpm -e httpd --nodeps</p>
+<p>4、安装依赖关系：</p>
+<p>[root@localhost ~]# mount  /dev/sr0 /media<br>
+[root@localhost ~]# cd /media/Packages</p>
+<p>[root@localhost Packages]# rpm -ivh apr-1.4.8-3.el7.x86_64.rpm<br>
+[root@localhost Packages]# rpm -ivh apr-devel-1.4.8-3.el7.x86_64.rpm<br>
+[root@localhost Packages]# rpm -ivh cyrus-sasl-devel-2.1.26-19.2.el7.x86_64.rpm<br>
+[root@localhost Packages]# rpm -ivh expat-devel-2.1.0-8.el7.x86_64.rpm<br>
+[root@localhost Packages]# rpm -ivh libdb-devel-5.3.21-19.el7.x86_64.rpm<br>
+[root@localhost Packages]# rpm -ivh openldap-devel-2.4.40-8.el7.x86_64.rpm<br>
+[root@localhost Packages]# rpm -ivh apr-util-1.5.2-6.el7.x86_64.rpm<br>
+[root@localhost Packages]# rpm -ivh apr-util-devel-1.5.2-6.el7.x86_64.rpm<br>
+[root@localhost Packages]# rpm -ivh pcre-devel-8.32-15.el7.x86_64.rpm<br>
+[root@localhost Packages]# rpm -ivh pcre-8.32-15.el7.x86_64.rpm<br>
+利用yum库安装：<br>
+yum -y install apr-1.4.8-3.el7.x86_64.rpm apr-devel-1.4.8-3.el7.x86_64.rpm cyrus-sasl-devel-2.1.26-20.el7_2.x86_64.rpm expat-devel-2.1.0-8.el7.x86_64.rpm libdb-devel-5.3.21-19.el7.x86_64.rpm openldap-devel-2.4.40-13.el7.x86_64.rpm apr-util-1.5.2-6.el7.x86_64.rpm apr-util-devel-1.5.2-6.el7.x86_64.rpm pcre-devel-8.32-15.el7_2.1.x86_64.rpm pcre-8.32-15.el7_2.1.x86_64.rpm<br>
+5、配置IP地址：</p>
+<p>[root@localhost httpd-2.4.25]# vim /etc/sysconfig/network-scripts/ifcfg-ens33<br>
+修改：<br>
+BOOTPROTO=static<br>
+ONBOOT=yes</p>
+<p>添加：<br>
+IPADDR=192.168.10.1<br>
+NETMASK=255.255.255.0</p>
+<p>[root@localhost httpd-2.4.25]# systemctl restart network<br>
+[root@localhost httpd-2.4.25]# ip addr</p>
+<p>二、编译安装httpd</p>
+<p>1、更换工具盘：<br>
+[root@localhost ~]# mount /dev/sr0 /media<br>
+[root@localhost ~]# cd /media<br>
+[root@localhost media]# ll</p>
+<p>2、解压软件：<br>
+[root@localhost media]# tar -zxvf httpd-2.4.25.tar.gz -C /usr/src<br>
+[root@localhost media]# cd /usr/src/httpd-2.4.25</p>
+<p>3、配置<br>
+[root@localhost httpd-2.4.25]# ./configure --prefix=/usr/local/httpd --enable-so --enable-rewrite --enable-charset-lite --enable-cgi --enable-sockets</p>
+<pre><code>注意：默认安装的系统没有gcc与gcc-c++组件，无法配置编译开源软件，以下为安装gcc组件的方法。
+挂载系统光盘到/media目录：
+umount /dev/sr0
+mount  /dev/sr0 /media
+编辑yum配置文件：
+cd /etc/yum.repos.d
+rm -f *
+vim yum.repo
+添加内容：
+[yum]
+baseurl=file:///media
+enabled=1
+gpgcheck=0
+
+保存退出
+转入光盘目录：
+cd /media/Packages
+yum -y install gcc gcc-c++
+</code></pre>
+<p>4、编译及安装：<br>
+cd  /usr/src/httpd-2.4.25/<br>
+[root@localhost httpd-2.4.25]# make &amp;&amp; make install</p>
+<p>5、优化路径与服务：<br>
+[root@localhost httpd-2.4.25]# ln -s /usr/local/httpd/bin/* /usr/local/bin</p>
+<p>[root@localhost httpd-2.4.25]# cp /usr/local/httpd/bin/apachectl /etc/init.d/httpd<br>
+[root@localhost httpd-2.4.25]# chmod a+x /etc/init.d/httpd<br>
+[root@localhost httpd-2.4.25]# vim /etc/init.d/httpd<br>
+添加：<br>
+#chkconfig:35 85 21<br>
+#description:apache http server</p>
+<p>6、添加httpd为系统服务：<br>
+[root@localhost httpd-2.4.25]# chkconfig --add httpd<br>
+[root@localhost httpd-2.4.25]# chkconfig --list</p>
+<p>7、建立 .service配置文件<br>
+[root@localhost httpd-2.4.25]# vim /lib/systemd/system/httpd.service<br>
+添加：<br>
+[Unit]<br>
+Description=apache http server<br>
+after=network.target</p>
+<p>[Service]<br>
+Type=forking<br>
+PIDFile=/usr/local/httpd/logs/httpd.pid<br>
+ExecStart=/usr/local/bin/apachectl $OPTION<br>
+ExecReload=/bin/kill -HUP $MAINPID<br>
+killMode=process<br>
+Restart=on-failure<br>
+RestartSec=42s</p>
+<p>[Install]<br>
+WantedBy=graphical.target</p>
+<p>8、设置开机自动启动：</p>
+<p>[root@localhost httpd-2.4.25]# systemctl enable httpd.service<br>
+[root@localhost httpd-2.4.25]# systemctl is-enabled httpd.service</p>
+<p>9、启动服务：</p>
+<p>[root@localhost httpd-2.4.25]# systemctl start httpd</p>
+<p>10、页面测试：</p>
+<p>[root@localhost httpd-2.4.25]# firefox http://192.168.10.1 &amp;</p>
+<p>11、查看访问日志：</p>
+<p>[root@localhost /]# tail /usr/local/httpd/logs/access_log<br>
+或者<br>
+[root@localhost /]# cat /usr/local/httpd/logs/access_log</p>
+<p>12、查看错误日志：</p>
+<p>[root@localhost /]# tail /usr/local/httpd/logs/error_log<br>
+或者<br>
+[root@localhost /]# cat /usr/local/httpd/logs/error_log</p>
+<p>13、修改配置文件：</p>
+<p>[root@localhost /]# vim /usr/local/httpd/conf/httpd.conf</p>
+<p>14、检查配置文件语法：</p>
+<p>[root@localhost /]# /usr/local/httpd/bin/httpd -t<br>
+或者<br>
+[root@localhost /]# /usr/local/httpd/bin/apachectl -t</p>
+<p>15、压力测试：</p>
+<p>ab -n 1000 -c 100 http://192.168.10.1/index.html<br>
+ab -n 1000 -c 10 http://192.168.10.1/index.html</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[精选鬼刀壁纸]]></title>
         <id>https://www.zjp666.cf/post/jing-xuan-gui-dao-bi-zhi/</id>

@@ -220,7 +220,7 @@
                     <article class="post-wrap">
                         <header class="post-header">
                             <h1 class="post-title">
-                                源码包安装详解
+                                虚拟主机与web架构
                             </h1>
                             
                                     <!--zh-->
@@ -229,18 +229,12 @@
                                         <a itemprop="author" rel="author" href="/">
                                             沐风纸鸢
                                         </a>
-                                        <span class="post-time">&#x65E5;&#x671F;: <a href="#">2020-11-10</a></span>
+                                        <span class="post-time">&#x65E5;&#x671F;: <a href="#">2020-11-18</a></span>
                                         <span class="post-readtime">&#x9605;&#x8BFB;&#x65F6;&#x95F4;:<a
-                                    href="#">1.4
+                                    href="#">4.7
                                     &#x5206;&#x949F;</a></span>
-                                        <span class="post-words">&#x5B57;&#x6570;:<a href="#">296</a></span>
+                                        <span class="post-words">&#x5B57;&#x6570;:<a href="#">870</a></span>
                                         
-                                            <span class="post-category">&#x5206;&#x7C7B;:
-                                
-                                <a href="https://www.zjp666.cf/tag/fcLFL9VXu/">随心笔记</a>
-                                
-                            </span>
-                                            
                                                 阅读量:
                                                 <span data-hk-page="current"> - </span>
                                                 
@@ -248,40 +242,145 @@
                                     
                         </header>
                         
-                            <img class="post-feature-image" src="https://www.zjp666.cf/post-images/yuan-ma-bao-an-zhuang-xiang-jie.jpg" alt="">
-                          
                         <div class="post-content">
-                            <p>#源码包安装方法：此处以httpd服务为例</p>
-<p>[root@localhost ~]#setenforce 0<br>
-#临时关闭沙盒</p>
-<p>[root@localhost ~]# systemctl stop firewall<br>
-Failed to stop firewall.service: Unit firewall.service not loaded.<br>
-#关闭防火墙</p>
-<p>[root@localhost ~]# vim /etc/sysconfig/network-scripts/ifcfg-ens33<br>
-#配置ip地址</p>
-<p>[root@localhost ~]# systemctl restart network<br>
-#重启网络服务</p>
-<p>[root@localhost ~]# ifconfig<br>
-#查看IP地址是否更改</p>
-<pre><code>                                               以上为必备条件
-</code></pre>
-<p>[root@localhost ~]# tar -zxvf httpd-2.2.17.tar.gz -C /usr/src/<br>
-#归档解压软件包并指定路径<br>
-#-z：gzip文件      -x：解压         -v：详细信息         -f：归档        -C指定路径</p>
-<p>[root@localhost ~]# cd /usr/src/httpd-2.2.17/<br>
-#转到刚解压的软件下</p>
-<p>[root@localhost httpd-2.2.17]# ./configure --prefix=/usr/local/httpd<br>
-#配置并指定安装路径   ./configure :默认配置   --prefix=安装路径</p>
-<p>[root@localhost httpd-2.2.17]# make &amp;&amp; make install<br>
-#编译并安装  make：编译     make install：安装编译</p>
-<p>[root@localhost httpd-2.2.17]# vim /usr/local/httpd/conf/httpd.conf<br>
-#编辑主配置文件      把第97行#去掉启用配置{方法：打开大写按97G}</p>
-<p>[root@localhost httpd-2.2.17]# /usr/local/httpd/bin/apachectl  start<br>
-#开启apachectl 服务</p>
-<p>[root@localhost httpd-2.2.17]# vim /usr/local/httpd/htdocs/index.html<br>
-默认网页后台路径{更改网页显示信息}</p>
-<pre><code>                                                                                      by:zjp
-                                                                                 2020-11-10</code></pre>
+                            <p>一.构建基于不同IP的虚拟主机<br>
+用户授权优先级低于客户机地址限制<br>
+在被允许的主机访问服务器的时候，用户授权不生效<br>
+编辑网卡<br>
+IP:192.168.1.1<br>
+复制ens33  到  虚拟网卡ens33：0<br>
+cd /etc/sysconfig/network-scripts/<br>
+cp  ifcfg-ens33  ifcfg-ens33:0<br>
+vim ifcfg-ens33:0<br>
+进去后改网卡名字ens33：0   和IP  192.168.1.2</p>
+<p>接着安装好apache</p>
+<p>编辑<br>
+vim /usr/local/httpd/conf/httpd.conf      //编辑服务<br>
+200G 改<br>
+ServerName 192.168.1.1:80      //多域名写IP地址<br>
+末行模式输入   /vhosts         //查找vhosts<br>
+取消注释，开启虚拟主机 vhost支持<br>
+：wq<br>
+创建虚拟主机的页面根目录<br>
+mkdir -p /myweb/baidu<br>
+mkdir -p /myweb/sohu<br>
+给虚拟主机创建首页文件（创建站点）<br>
+echo &quot;www.baidu.com&quot; &gt;&gt; /myweb/baidu/index.html<br>
+echo &quot;www.sohu.com&quot; &gt;&gt; /myweb/sohu/index.html<br>
+chmod  -R 777 /myweb/baidu/<br>
+chmod  -R 777 /myweb/sohu/<br>
+编辑虚拟主机配置文件  vim /usr/local/httpd/conf/extra/httpd-vhosts.conf<br>
+进去后：<br>
+&lt;Directory &quot;/myweb&quot;&gt;            #发布虚拟主机根目录<br>
+require all granted<br>
+</Directory></p>
+<p>&lt;VirtualHost 192.168.1.1:80&gt;<br>
+DocumentRoot &quot;/myweb/baidu&quot;<br>
+ServerName www.baidu.com<br>
+ErrorLog &quot;logs/baidu.com-error_log&quot;<br>
+CustomLog &quot;logs/baidu.com-access_log&quot; common<br>
+</VirtualHost></p>
+<p>&lt;VirtualHost 192.168.1.2:80&gt;<br>
+DocumentRoot &quot;/myweb/sohu&quot;<br>
+ServerName www.sohu.com<br>
+ErrorLog &quot;logs/sohu.com-error_log&quot;<br>
+CustomLog &quot;logs/sohu.com-access_log&quot; common<br>
+</VirtualHost><br>
+:wq<br>
+systemctl restart httpd</p>
+<p>二.构建相同IP，不同端口号的虚拟主机<br>
+[root@localhost /]# vim /usr/local/httpd/conf/httpd.conf<br>
+添加：<br>
+listen 2000<br>
+listen 3000<br>
+1.配置httpd-vhosts.conf文件，修改虚拟主机选项<br>
+[root@localhost /]# vim /usr/local/httpd/conf/extra/httpd-vhosts.conf</p>
+<p>修改：<br>
+&lt;VirtualHost 192.168.1.1:2000&gt;<br>
+DocumentRoot &quot;/myweb/baidu&quot;<br>
+ServerName www.baidu.com<br>
+ErrorLog &quot;logs/baidu.com-error_log&quot;<br>
+CustomLog &quot;logs/baidu.com-access_log&quot; common<br>
+</VirtualHost></p>
+<p>&lt;VirtualHost 192.168.1.1:3000&gt;<br>
+DocumentRoot &quot;/myweb/sohu&quot;<br>
+ServerName www.sohu.com<br>
+ErrorLog &quot;logs/sohu.com-error_log&quot;<br>
+CustomLog &quot;logs/sohu.com-access_log&quot; common<br>
+</VirtualHost><br>
+[root@localhost named]# systemctl restart httpd</p>
+<p>三、构建相同IP，相同端口号，不同主机头的虚拟主机<br>
+[root@localhost ~]# mount /dev/cdrom  /media/<br>
+mount: /dev/sr0 写保护，将以只读方式挂载<br>
+[root@localhost ~]# cd /media/Packages/<br>
+[root@localhost Packages]# rpm -ivh bind-9.9.4-37.el7.x86_64.rpm<br>
+警告：bind-9.9.4-37.el7.x86_64.rpm: 头V3 RSA/SHA256 Signature, 密钥 ID f4a80eb5: NOKEY<br>
+准备中...                          ################################# [100%]<br>
+正在升级/安装...<br>
+1:bind-32:9.9.4-37.el7             ################################# [100%]<br>
+[root@localhost Packages]# cd<br>
+[root@localhost ~]# vim /etc/named.conf<br>
+options {<br>
+listen-on port 53 { 192.168.1.1; };<br>
+listen-on-v6 port 53 { ::1; };<br>
+directory       &quot;/var/named&quot;;<br>
+dump-file       &quot;/var/named/data/cache_dump.db&quot;;<br>
+statistics-file &quot;/var/named/data/named_stats.txt&quot;;<br>
+memstatistics-file &quot;/var/named/data/named_mem_stats.txt&quot;;<br>
+allow-query     { any; };<br>
+[root@localhost ~]# vim /etc/named.rfc1912.zones<br>
+zone &quot;baidu.com&quot; IN {<br>
+type master;<br>
+file &quot;baidu.com.zone&quot;;<br>
+allow-update { none; };<br>
+};</p>
+<p>zone &quot;sohu.com&quot; IN {<br>
+type master;<br>
+file &quot;sohu.com.zone&quot;;<br>
+allow-update { none; };<br>
+};<br>
+[root@localhost ~]# cd /var/named/<br>
+[root@localhost named]# cp -p named.localhost baidu.com.zone<br>
+[root@localhost named]# cp -p named.localhost sohu.com.zone<br>
+[root@localhost named]# vim baidu.com.zone<br>
+<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;#&#039; at position 433: …ocalhost named]#̲ vim sohu.com.z…'>TTL 1D
+@       IN SOA root. www.baidu.com. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+        NS      www.baidu.com.
+www  IN A       192.168.1.1
+        AAAA    ::1
+[root@localhost named]# vim sohu.com.zone 
+</span>TTL 1D<br>
+@       IN SOA  root. www.sohu.com. (<br>
+0       ; serial<br>
+1D      ; refresh<br>
+1H      ; retry<br>
+1W      ; expire<br>
+3H )    ; minimum<br>
+NS      www.sohu.com.<br>
+www IN  A       192.168.1.1<br>
+AAAA    ::1<br>
+[root@localhost named]# systemctl restart named</p>
+<p>配置httpd-vhosts.conf文件，修改虚拟主机选项<br>
+[root@localhost /]# vim /usr/local/httpd/conf/extra/httpd-vhosts.conf<br>
+修改：</p>
+<p>&lt;VirtualHost 192.168.10.2:80&gt;<br>
+DocumentRoot &quot;/myweb/guiguedu&quot;<br>
+ServerName www.guiguedu.cn<br>
+ErrorLog &quot;logs/guiguedu.cn-error_log&quot;<br>
+CustomLog &quot;logs/guiguedu.cn-access_log&quot; common<br>
+</VirtualHost></p>
+<p>&lt;VirtualHost 192.168.10.2:80&gt;<br>
+DocumentRoot &quot;/myweb/baidu&quot;<br>
+ServerName www.baidu.com<br>
+ErrorLog &quot;logs/baidu.com-error_log&quot;<br>
+CustomLog &quot;logs/baidu.com-access_log&quot; common<br>
+</VirtualHost><br>
+[root@localhost named]# systemctl restart httpd</p>
 
                         </div>
                         
@@ -300,7 +399,7 @@ Failed to stop firewall.service: Unit firewall.service not loaded.<br>
 
                                                 <p class="copyright-item">
                                                     <span>&#x6C38;&#x4E45;&#x94FE;&#x63A5;:</span>
-                                                    <span><a href="https://www.zjp666.cf/post/yuan-ma-bao-an-zhuang-xiang-jie/">https://www.zjp666.cf/post/yuan-ma-bao-an-zhuang-xiang-jie/</a></span>
+                                                    <span><a href="https://www.zjp666.cf/post/xu-ni-zhu-ji-yu-web-jia-gou/">https://www.zjp666.cf/post/xu-ni-zhu-ji-yu-web-jia-gou/</a></span>
                                                 </p>
 
                                                 <p class="copyright-item">
@@ -315,9 +414,9 @@ Failed to stop firewall.service: Unit firewall.service not loaded.<br>
                                                                     <span style="margin-right:15px">
                         <i class="post-share"></i>
                         <span>&#x5206;&#x4EAB;:</span>
-                                                                    <a title="QR 码" target="_blank" href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.zjp666.cf/post/yuan-ma-bao-an-zhuang-xiang-jie/"><i class="fa fa-qrcode"></i></a>
-                                                                    <a title="QQ" target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.zjp666.cf/post/yuan-ma-bao-an-zhuang-xiang-jie/&sharesource=qzone&title=源码包安装详解&pics=https://www.zjp666.cf/images/avatar.png?v=1605694707064&summary="><i class="fa fa-qq"></i></a>
-                                                                    <a title="新浪微博" target="_blank" href="https://service.weibo.com/share/share.php?url=https://www.zjp666.cf/post/yuan-ma-bao-an-zhuang-xiang-jie/&sharesource=weibo&title=源码包安装详解 + " - " + &pic="https://www.zjp666.cf/images/avatar.png?v=1605694707064 "><i class="fa fa-weibo "></i></a>
+                                                                    <a title="QR 码" target="_blank" href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.zjp666.cf/post/xu-ni-zhu-ji-yu-web-jia-gou/"><i class="fa fa-qrcode"></i></a>
+                                                                    <a title="QQ" target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.zjp666.cf/post/xu-ni-zhu-ji-yu-web-jia-gou/&sharesource=qzone&title=虚拟主机与web架构&pics=https://www.zjp666.cf/images/avatar.png?v=1605694707064&summary="><i class="fa fa-qq"></i></a>
+                                                                    <a title="新浪微博" target="_blank" href="https://service.weibo.com/share/share.php?url=https://www.zjp666.cf/post/xu-ni-zhu-ji-yu-web-jia-gou/&sharesource=weibo&title=虚拟主机与web架构 + " - " + &pic="https://www.zjp666.cf/images/avatar.png?v=1605694707064 "><i class="fa fa-weibo "></i></a>
 
                                                                     </span>
                                                                     
@@ -335,12 +434,6 @@ Failed to stop firewall.service: Unit firewall.service not loaded.<br>
                                                                                     <span>&#x6807;&#x7B7E;:</span>
                                                                                     <span class="tag ">
                         
-                        
-                        <a href="https://www.zjp666.cf/tag/fcLFL9VXu/">#
-                    随心笔记
-                        </a>
-                        
-                            
                                 </span>
                                                                                 </div>
                                                                                 <div>
@@ -355,11 +448,11 @@ Failed to stop firewall.service: Unit firewall.service not loaded.<br>
                                                                                 <!---->
                                                                                 <section class="post-nav">
                                                                                     
-                                                                                        <a class="prev" rel="prev" href="https://www.zjp666.cf/post/jing-xuan-gui-dao-bi-zhi/">
-                                                                                            精选鬼刀壁纸
-                                                                                        </a>
-                                                                                        
                                                                                             
+                                                                                                <a class="next" rel="next" href="https://www.zjp666.cf/post/shuo-shuo/">
+                                                                                                    说说
+                                                                                                </a>
+                                                                                                
                                                                                 </section>
                     </article>
                 </div>

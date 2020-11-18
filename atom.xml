@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.zjp666.cf</id>
     <title>沐风纸鸢</title>
-    <updated>2020-11-17T04:14:21.810Z</updated>
+    <updated>2020-11-18T10:18:41.590Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://www.zjp666.cf"/>
     <link rel="self" href="https://www.zjp666.cf/atom.xml"/>
@@ -14,6 +14,152 @@
     <logo>https://www.zjp666.cf/images/avatar.png</logo>
     <icon>https://www.zjp666.cf/favicon.ico</icon>
     <rights>All rights reserved 2020, 沐风纸鸢</rights>
+    <entry>
+        <title type="html"><![CDATA[虚拟主机与web架构]]></title>
+        <id>https://www.zjp666.cf/post/xu-ni-zhu-ji-yu-web-jia-gou/</id>
+        <link href="https://www.zjp666.cf/post/xu-ni-zhu-ji-yu-web-jia-gou/">
+        </link>
+        <updated>2020-11-18T09:51:09.000Z</updated>
+        <content type="html"><![CDATA[<p>一.构建基于不同IP的虚拟主机<br>
+用户授权优先级低于客户机地址限制<br>
+在被允许的主机访问服务器的时候，用户授权不生效<br>
+编辑网卡<br>
+IP:192.168.1.1<br>
+复制ens33  到  虚拟网卡ens33：0<br>
+cd /etc/sysconfig/network-scripts/<br>
+cp  ifcfg-ens33  ifcfg-ens33:0<br>
+vim ifcfg-ens33:0<br>
+进去后改网卡名字ens33：0   和IP  192.168.1.2</p>
+<p>接着安装好apache</p>
+<p>编辑<br>
+vim /usr/local/httpd/conf/httpd.conf      //编辑服务<br>
+200G 改<br>
+ServerName 192.168.1.1:80      //多域名写IP地址<br>
+末行模式输入   /vhosts         //查找vhosts<br>
+取消注释，开启虚拟主机 vhost支持<br>
+：wq<br>
+创建虚拟主机的页面根目录<br>
+mkdir -p /myweb/baidu<br>
+mkdir -p /myweb/sohu<br>
+给虚拟主机创建首页文件（创建站点）<br>
+echo &quot;www.baidu.com&quot; &gt;&gt; /myweb/baidu/index.html<br>
+echo &quot;www.sohu.com&quot; &gt;&gt; /myweb/sohu/index.html<br>
+chmod  -R 777 /myweb/baidu/<br>
+chmod  -R 777 /myweb/sohu/<br>
+编辑虚拟主机配置文件  vim /usr/local/httpd/conf/extra/httpd-vhosts.conf<br>
+进去后：<br>
+&lt;Directory &quot;/myweb&quot;&gt;            #发布虚拟主机根目录<br>
+require all granted<br>
+</Directory></p>
+<p>&lt;VirtualHost 192.168.1.1:80&gt;<br>
+DocumentRoot &quot;/myweb/baidu&quot;<br>
+ServerName www.baidu.com<br>
+ErrorLog &quot;logs/baidu.com-error_log&quot;<br>
+CustomLog &quot;logs/baidu.com-access_log&quot; common<br>
+</VirtualHost></p>
+<p>&lt;VirtualHost 192.168.1.2:80&gt;<br>
+DocumentRoot &quot;/myweb/sohu&quot;<br>
+ServerName www.sohu.com<br>
+ErrorLog &quot;logs/sohu.com-error_log&quot;<br>
+CustomLog &quot;logs/sohu.com-access_log&quot; common<br>
+</VirtualHost><br>
+:wq<br>
+systemctl restart httpd</p>
+<p>二.构建相同IP，不同端口号的虚拟主机<br>
+[root@localhost /]# vim /usr/local/httpd/conf/httpd.conf<br>
+添加：<br>
+listen 2000<br>
+listen 3000<br>
+1.配置httpd-vhosts.conf文件，修改虚拟主机选项<br>
+[root@localhost /]# vim /usr/local/httpd/conf/extra/httpd-vhosts.conf</p>
+<p>修改：<br>
+&lt;VirtualHost 192.168.1.1:2000&gt;<br>
+DocumentRoot &quot;/myweb/baidu&quot;<br>
+ServerName www.baidu.com<br>
+ErrorLog &quot;logs/baidu.com-error_log&quot;<br>
+CustomLog &quot;logs/baidu.com-access_log&quot; common<br>
+</VirtualHost></p>
+<p>&lt;VirtualHost 192.168.1.1:3000&gt;<br>
+DocumentRoot &quot;/myweb/sohu&quot;<br>
+ServerName www.sohu.com<br>
+ErrorLog &quot;logs/sohu.com-error_log&quot;<br>
+CustomLog &quot;logs/sohu.com-access_log&quot; common<br>
+</VirtualHost><br>
+[root@localhost named]# systemctl restart httpd</p>
+<p>三、构建相同IP，相同端口号，不同主机头的虚拟主机<br>
+[root@localhost ~]# mount /dev/cdrom  /media/<br>
+mount: /dev/sr0 写保护，将以只读方式挂载<br>
+[root@localhost ~]# cd /media/Packages/<br>
+[root@localhost Packages]# rpm -ivh bind-9.9.4-37.el7.x86_64.rpm<br>
+警告：bind-9.9.4-37.el7.x86_64.rpm: 头V3 RSA/SHA256 Signature, 密钥 ID f4a80eb5: NOKEY<br>
+准备中...                          ################################# [100%]<br>
+正在升级/安装...<br>
+1:bind-32:9.9.4-37.el7             ################################# [100%]<br>
+[root@localhost Packages]# cd<br>
+[root@localhost ~]# vim /etc/named.conf<br>
+options {<br>
+listen-on port 53 { 192.168.1.1; };<br>
+listen-on-v6 port 53 { ::1; };<br>
+directory       &quot;/var/named&quot;;<br>
+dump-file       &quot;/var/named/data/cache_dump.db&quot;;<br>
+statistics-file &quot;/var/named/data/named_stats.txt&quot;;<br>
+memstatistics-file &quot;/var/named/data/named_mem_stats.txt&quot;;<br>
+allow-query     { any; };<br>
+[root@localhost ~]# vim /etc/named.rfc1912.zones<br>
+zone &quot;baidu.com&quot; IN {<br>
+type master;<br>
+file &quot;baidu.com.zone&quot;;<br>
+allow-update { none; };<br>
+};</p>
+<p>zone &quot;sohu.com&quot; IN {<br>
+type master;<br>
+file &quot;sohu.com.zone&quot;;<br>
+allow-update { none; };<br>
+};<br>
+[root@localhost ~]# cd /var/named/<br>
+[root@localhost named]# cp -p named.localhost baidu.com.zone<br>
+[root@localhost named]# cp -p named.localhost sohu.com.zone<br>
+[root@localhost named]# vim baidu.com.zone<br>
+<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;#&#039; at position 433: …ocalhost named]#̲ vim sohu.com.z…'>TTL 1D
+@       IN SOA root. www.baidu.com. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+        NS      www.baidu.com.
+www  IN A       192.168.1.1
+        AAAA    ::1
+[root@localhost named]# vim sohu.com.zone 
+</span>TTL 1D<br>
+@       IN SOA  root. www.sohu.com. (<br>
+0       ; serial<br>
+1D      ; refresh<br>
+1H      ; retry<br>
+1W      ; expire<br>
+3H )    ; minimum<br>
+NS      www.sohu.com.<br>
+www IN  A       192.168.1.1<br>
+AAAA    ::1<br>
+[root@localhost named]# systemctl restart named</p>
+<p>配置httpd-vhosts.conf文件，修改虚拟主机选项<br>
+[root@localhost /]# vim /usr/local/httpd/conf/extra/httpd-vhosts.conf<br>
+修改：</p>
+<p>&lt;VirtualHost 192.168.10.2:80&gt;<br>
+DocumentRoot &quot;/myweb/guiguedu&quot;<br>
+ServerName www.guiguedu.cn<br>
+ErrorLog &quot;logs/guiguedu.cn-error_log&quot;<br>
+CustomLog &quot;logs/guiguedu.cn-access_log&quot; common<br>
+</VirtualHost></p>
+<p>&lt;VirtualHost 192.168.10.2:80&gt;<br>
+DocumentRoot &quot;/myweb/baidu&quot;<br>
+ServerName www.baidu.com<br>
+ErrorLog &quot;logs/baidu.com-error_log&quot;<br>
+CustomLog &quot;logs/baidu.com-access_log&quot; common<br>
+</VirtualHost><br>
+[root@localhost named]# systemctl restart httpd</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[说说]]></title>
         <id>https://www.zjp666.cf/post/shuo-shuo/</id>

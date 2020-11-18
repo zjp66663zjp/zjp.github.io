@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.zjp666.cf</id>
     <title>沐风纸鸢</title>
-    <updated>2020-11-18T10:23:58.691Z</updated>
+    <updated>2020-11-18T10:29:30.466Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://www.zjp666.cf"/>
     <link rel="self" href="https://www.zjp666.cf/atom.xml"/>
@@ -145,13 +145,13 @@ AAAA    ::1<br>
 <p>配置httpd-vhosts.conf文件，修改虚拟主机选项<br>
 [root@localhost /]# vim /usr/local/httpd/conf/extra/httpd-vhosts.conf<br>
 修改：</p>
-<p>&lt;VirtualHost 192.168.10.2:80&gt;<br>
+<p>&lt;VirtualHost 192.168.1.1:80&gt;<br>
 DocumentRoot &quot;/myweb/guiguedu&quot;<br>
 ServerName www.guiguedu.cn<br>
 ErrorLog &quot;logs/guiguedu.cn-error_log&quot;<br>
 CustomLog &quot;logs/guiguedu.cn-access_log&quot; common<br>
 </VirtualHost></p>
-<p>&lt;VirtualHost 192.168.10.2:80&gt;<br>
+<p>&lt;VirtualHost 192.168.1.1:80&gt;<br>
 DocumentRoot &quot;/myweb/baidu&quot;<br>
 ServerName www.baidu.com<br>
 ErrorLog &quot;logs/baidu.com-error_log&quot;<br>

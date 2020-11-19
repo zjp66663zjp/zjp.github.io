@@ -220,7 +220,7 @@
                     <article class="post-wrap">
                         <header class="post-header">
                             <h1 class="post-title">
-                                apache服务的搭建及优化
+                                安装mysql
                             </h1>
                             
                                     <!--zh-->
@@ -229,11 +229,11 @@
                                         <a itemprop="author" rel="author" href="/">
                                             沐风纸鸢
                                         </a>
-                                        <span class="post-time">&#x65E5;&#x671F;: <a href="#">2020-11-13</a></span>
+                                        <span class="post-time">&#x65E5;&#x671F;: <a href="#">2020-11-19</a></span>
                                         <span class="post-readtime">&#x9605;&#x8BFB;&#x65F6;&#x95F4;:<a
-                                    href="#">5.1
+                                    href="#">2.0
                                     &#x5206;&#x949F;</a></span>
-                                        <span class="post-words">&#x5B57;&#x6570;:<a href="#">911</a></span>
+                                        <span class="post-words">&#x5B57;&#x6570;:<a href="#">407</a></span>
                                         
                                             <span class="post-category">&#x5206;&#x7C7B;:
                                 
@@ -250,128 +250,57 @@
                                     
                         </header>
                         
-                            <img class="post-feature-image" src="https://www.zjp666.cf/post-images/apache-fu-wu-de-da-jian-ji-you-hua.jpg" alt="">
-                          
                         <div class="post-content">
-                            <p>一、准备环境<br>
-📜📜📜📜📜📜📜<br>
-1、关闭防火墙：</p>
-<p>[root@localhost ~]# systemctl stop firewalld.service</p>
-<p>2、关闭SELinux：</p>
-<p>[root@localhost ~]# vim /etc/selinux/config<br>
-修改：<br>
-SELINUX=disabled</p>
-<p>[root@localhost ~]# setenforce 0</p>
-<p>3、卸载默认安装的apache：</p>
-<p>[root@localhost ~]# rpm -e httpd --nodeps</p>
-<p>4、安装依赖关系：</p>
-<p>[root@localhost ~]# mount  /dev/sr0 /media<br>
-[root@localhost ~]# cd /media/Packages</p>
-<p>[root@localhost Packages]# rpm -ivh apr-1.4.8-3.el7.x86_64.rpm<br>
-[root@localhost Packages]# rpm -ivh apr-devel-1.4.8-3.el7.x86_64.rpm<br>
-[root@localhost Packages]# rpm -ivh cyrus-sasl-devel-2.1.26-19.2.el7.x86_64.rpm<br>
-[root@localhost Packages]# rpm -ivh expat-devel-2.1.0-8.el7.x86_64.rpm<br>
-[root@localhost Packages]# rpm -ivh libdb-devel-5.3.21-19.el7.x86_64.rpm<br>
-[root@localhost Packages]# rpm -ivh openldap-devel-2.4.40-8.el7.x86_64.rpm<br>
-[root@localhost Packages]# rpm -ivh apr-util-1.5.2-6.el7.x86_64.rpm<br>
-[root@localhost Packages]# rpm -ivh apr-util-devel-1.5.2-6.el7.x86_64.rpm<br>
-[root@localhost Packages]# rpm -ivh pcre-devel-8.32-15.el7.x86_64.rpm<br>
-[root@localhost Packages]# rpm -ivh pcre-8.32-15.el7.x86_64.rpm<br>
-利用yum库安装：<br>
-yum -y install apr-1.4.8-3.el7.x86_64.rpm apr-devel-1.4.8-3.el7.x86_64.rpm cyrus-sasl-devel-2.1.26-20.el7_2.x86_64.rpm expat-devel-2.1.0-8.el7.x86_64.rpm libdb-devel-5.3.21-19.el7.x86_64.rpm openldap-devel-2.4.40-13.el7.x86_64.rpm apr-util-1.5.2-6.el7.x86_64.rpm apr-util-devel-1.5.2-6.el7.x86_64.rpm pcre-devel-8.32-15.el7_2.1.x86_64.rpm pcre-8.32-15.el7_2.1.x86_64.rpm<br>
-5、配置IP地址：</p>
-<p>[root@localhost httpd-2.4.25]# vim /etc/sysconfig/network-scripts/ifcfg-ens33<br>
-修改：<br>
-BOOTPROTO=static<br>
-ONBOOT=yes</p>
-<p>添加：<br>
-IPADDR=192.168.10.1<br>
-NETMASK=255.255.255.0</p>
-<p>[root@localhost httpd-2.4.25]# systemctl restart network<br>
-[root@localhost httpd-2.4.25]# ip addr</p>
-<p>二、编译安装httpd</p>
-<p>1、更换工具盘：<br>
-[root@localhost ~]# mount /dev/sr0 /media<br>
-[root@localhost ~]# cd /media<br>
-[root@localhost media]# ll</p>
-<p>2、解压软件：<br>
-[root@localhost media]# tar -zxvf httpd-2.4.25.tar.gz -C /usr/src<br>
-[root@localhost media]# cd /usr/src/httpd-2.4.25</p>
-<p>3、配置<br>
-[root@localhost httpd-2.4.25]# ./configure --prefix=/usr/local/httpd --enable-so --enable-rewrite --enable-charset-lite --enable-cgi --enable-sockets</p>
-<pre><code>注意：默认安装的系统没有gcc与gcc-c++组件，无法配置编译开源软件，以下为安装gcc组件的方法。
-挂载系统光盘到/media目录：
-umount /dev/sr0
-mount  /dev/sr0 /media
-编辑yum配置文件：
-cd /etc/yum.repos.d
-rm -f *
-vim yum.repo
-添加内容：
-[yum]
-baseurl=file:///media
-enabled=1
-gpgcheck=0
-
-保存退出
-转入光盘目录：
-cd /media/Packages
-yum -y install gcc gcc-c++
-</code></pre>
-<p>4、编译及安装：<br>
-cd  /usr/src/httpd-2.4.25/<br>
-[root@localhost httpd-2.4.25]# make &amp;&amp; make install</p>
-<p>5、优化路径与服务：<br>
-[root@localhost httpd-2.4.25]# ln -s /usr/local/httpd/bin/* /usr/local/bin</p>
-<p>[root@localhost httpd-2.4.25]# cp /usr/local/httpd/bin/apachectl /etc/init.d/httpd<br>
-[root@localhost httpd-2.4.25]# chmod a+x /etc/init.d/httpd<br>
-[root@localhost httpd-2.4.25]# vim /etc/init.d/httpd<br>
-添加：<br>
-#chkconfig:35 85 21<br>
-#description:apache http server</p>
-<p>6、添加httpd为系统服务：<br>
-[root@localhost httpd-2.4.25]# chkconfig --add httpd<br>
-[root@localhost httpd-2.4.25]# chkconfig --list</p>
-<p>7、建立 .service配置文件<br>
-[root@localhost httpd-2.4.25]# vim /lib/systemd/system/httpd.service<br>
-添加：<br>
-[Unit]<br>
-Description=apache http server<br>
-after=network.target</p>
-<p>[Service]<br>
-Type=forking<br>
-PIDFile=/usr/local/httpd/logs/httpd.pid<br>
-ExecStart=/usr/local/bin/apachectl $OPTION<br>
-ExecReload=/bin/kill -HUP $MAINPID<br>
-killMode=process<br>
-Restart=on-failure<br>
-RestartSec=42s</p>
-<p>[Install]<br>
-WantedBy=graphical.target</p>
-<p>8、设置开机自动启动：</p>
-<p>[root@localhost httpd-2.4.25]# systemctl enable httpd.service<br>
-[root@localhost httpd-2.4.25]# systemctl is-enabled httpd.service</p>
-<p>9、启动服务：</p>
-<p>[root@localhost httpd-2.4.25]# systemctl start httpd</p>
-<p>10、页面测试：</p>
-<p>[root@localhost httpd-2.4.25]# firefox http://192.168.10.1 &amp;</p>
-<p>11、查看访问日志：</p>
-<p>[root@localhost /]# tail /usr/local/httpd/logs/access_log<br>
-或者<br>
-[root@localhost /]# cat /usr/local/httpd/logs/access_log</p>
-<p>12、查看错误日志：</p>
-<p>[root@localhost /]# tail /usr/local/httpd/logs/error_log<br>
-或者<br>
-[root@localhost /]# cat /usr/local/httpd/logs/error_log</p>
-<p>13、修改配置文件：</p>
-<p>[root@localhost /]# vim /usr/local/httpd/conf/httpd.conf</p>
-<p>14、检查配置文件语法：</p>
-<p>[root@localhost /]# /usr/local/httpd/bin/httpd -t<br>
-或者<br>
-[root@localhost /]# /usr/local/httpd/bin/apachectl -t</p>
-<p>15、压力测试：</p>
-<p>ab -n 1000 -c 100 http://192.168.10.1/index.html<br>
-ab -n 1000 -c 10 http://192.168.10.1/index.html</p>
+                            <p>1.安装mysql的依赖环境</p>
+<p>安装ncurses-devel运行环境</p>
+<p>[root@localhost ~]# yum -y install ncurses-devel</p>
+<p>2.解压cmake和mysql软件包<br>
+[root@localhost ~]# tar -zxvf cmake-2.8.6.tar.gz -C /usr/src<br>
+[root@localhost ~]# tar -zxvf mysql-5.6.36.tar.gz -C /usr/src</p>
+<p>3.安装cmake</p>
+<p>[root@localhost ~]# cd /usr/src/cmake-2.8.6<br>
+[root@localhost cmake-2.8.6]# ./configure &amp;&amp; gmake &amp;&amp; gmake install</p>
+<p>4.配置mysql安装环境<br>
+cd /usr/src/mysql-5.6.36<br>
+cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DSYSCONFDIR=/etc -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=all</p>
+<p>选项说明：<br>
+-DCMAKE_INSTALL_PREFIX=/usr/local/mysql   #指定安装路径<br>
+-DSYSCONFDIR=/etc			  #指定配置文件路径<br>
+-DDEFAULT_CHARSET=utf8			  #默认语言编码<br>
+-DDEFAULT_COLLATION=utf8_general_ci	  #默认字符集<br>
+-DWITH_EXTRA_CHARSETS=all		  #支持各种字符</p>
+<p>make &amp;&amp;　make install<br>
+<img src="https://www.zjp666.cf/post-images/1605777073360.PNG" alt="" loading="lazy"></p>
+<p>5.优化mysql启动脚本和命令路径</p>
+<p>创建mysql用户</p>
+<p>useradd -M -s /sbin/nologin mysql</p>
+<p>复制mysql配置文件到/etc目录：<br>
+cp /usr/src/mysql-5.6.36/support-files/my-default.cnf /etc/my.cnf</p>
+<p>复制mysql脚本文件到/etc/rc.d/init.d/目录中<br>
+cp /usr/src/mysql-5.6.36/support-files/mysql.server /etc/rc.d/init.d/mysqld</p>
+<p>chmod a+x /etc/rc.d/init.d/mysqld</p>
+<p>添加mysqld服务到服务管理器<br>
+chkconfig --add mysqld<br>
+chkconfig mysqld on</p>
+<p>优化mysql命令路径</p>
+<p>ln -s /usr/local/mysql/bin/* /usr/local/bin</p>
+<p>6.初始化mysql</p>
+<p>安装perl运行组件和运行环境：<br>
+cd /media/Packages/<br>
+yum -y install perl perl-devel perl-DBD*<br>
+cd /usr/src/mysql-5.6.36/</p>
+<p>初始化mysql：<br>
+/usr/local/mysql/scripts/mysql_install_db --user=mysql --group=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data</p>
+<p>启动mysql服务</p>
+<p>systemctl restart mysqld</p>
+<p>3、mysql基本配置与操作<br>
+1.给root用户设置密码</p>
+<p>mysqladmin -u root password     #给用户第一次设置密码</p>
+<p>修改root用户密码：<br>
+mysqladmin -u root -p  password</p>
+<p>2.mysql登录</p>
+<p>mysql  -u  root  -p<br>
+<img src="https://www.zjp666.cf/post-images/1605778305120.PNG" alt="" loading="lazy"></p>
 
                         </div>
                         
@@ -390,7 +319,7 @@ ab -n 1000 -c 10 http://192.168.10.1/index.html</p>
 
                                                 <p class="copyright-item">
                                                     <span>&#x6C38;&#x4E45;&#x94FE;&#x63A5;:</span>
-                                                    <span><a href="https://www.zjp666.cf/post/apache-fu-wu-de-da-jian-ji-you-hua/">https://www.zjp666.cf/post/apache-fu-wu-de-da-jian-ji-you-hua/</a></span>
+                                                    <span><a href="https://www.zjp666.cf/post/an-zhuang-mysql/">https://www.zjp666.cf/post/an-zhuang-mysql/</a></span>
                                                 </p>
 
                                                 <p class="copyright-item">
@@ -405,9 +334,9 @@ ab -n 1000 -c 10 http://192.168.10.1/index.html</p>
                                                                     <span style="margin-right:15px">
                         <i class="post-share"></i>
                         <span>&#x5206;&#x4EAB;:</span>
-                                                                    <a title="QR 码" target="_blank" href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.zjp666.cf/post/apache-fu-wu-de-da-jian-ji-you-hua/"><i class="fa fa-qrcode"></i></a>
-                                                                    <a title="QQ" target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.zjp666.cf/post/apache-fu-wu-de-da-jian-ji-you-hua/&sharesource=qzone&title=apache服务的搭建及优化&pics=https://www.zjp666.cf/images/avatar.png?v=1605778324471&summary="><i class="fa fa-qq"></i></a>
-                                                                    <a title="新浪微博" target="_blank" href="https://service.weibo.com/share/share.php?url=https://www.zjp666.cf/post/apache-fu-wu-de-da-jian-ji-you-hua/&sharesource=weibo&title=apache服务的搭建及优化 + " - " + &pic="https://www.zjp666.cf/images/avatar.png?v=1605778324471 "><i class="fa fa-weibo "></i></a>
+                                                                    <a title="QR 码" target="_blank" href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.zjp666.cf/post/an-zhuang-mysql/"><i class="fa fa-qrcode"></i></a>
+                                                                    <a title="QQ" target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.zjp666.cf/post/an-zhuang-mysql/&sharesource=qzone&title=安装mysql&pics=https://www.zjp666.cf/images/avatar.png?v=1605778324471&summary="><i class="fa fa-qq"></i></a>
+                                                                    <a title="新浪微博" target="_blank" href="https://service.weibo.com/share/share.php?url=https://www.zjp666.cf/post/an-zhuang-mysql/&sharesource=weibo&title=安装mysql + " - " + &pic="https://www.zjp666.cf/images/avatar.png?v=1605778324471 "><i class="fa fa-weibo "></i></a>
 
                                                                     </span>
                                                                     
@@ -449,13 +378,9 @@ ab -n 1000 -c 10 http://192.168.10.1/index.html</p>
                                                                                 <!---->
                                                                                 <section class="post-nav">
                                                                                     
-                                                                                        <a class="prev" rel="prev" href="https://www.zjp666.cf/post/centos7-dns-zhu-cong-fu-zhi/">
-                                                                                            centos7 DNS主从复制
-                                                                                        </a>
-                                                                                        
                                                                                             
-                                                                                                <a class="next" rel="next" href="https://www.zjp666.cf/post/jing-xuan-gui-dao-bi-zhi/">
-                                                                                                    精选鬼刀壁纸
+                                                                                                <a class="next" rel="next" href="https://www.zjp666.cf/post/xu-ni-zhu-ji-yu-web-jia-gou/">
+                                                                                                    虚拟主机与web架构
                                                                                                 </a>
                                                                                                 
                                                                                 </section>

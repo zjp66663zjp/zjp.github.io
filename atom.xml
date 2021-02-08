@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.zjp666.cf</id>
-    <title>沐风纸鸢</title>
-    <updated>2021-02-08T07:48:00.509Z</updated>
+    <title>沐风小站</title>
+    <updated>2021-02-08T07:48:46.600Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://www.zjp666.cf"/>
     <link rel="self" href="https://www.zjp666.cf/atom.xml"/>
@@ -13,7 +13,7 @@
 一个旁观者如果横加议论，说明他说话随便，乱下判断，这样的人走到哪里，哪里就是是非的旋涡，还是敬而远之的好。</subtitle>
     <logo>https://www.zjp666.cf/images/avatar.png</logo>
     <icon>https://www.zjp666.cf/favicon.ico</icon>
-    <rights>All rights reserved 2021, 沐风纸鸢</rights>
+    <rights>All rights reserved 2021, 沐风小站</rights>
     <entry>
         <title type="html"><![CDATA[安装mysql]]></title>
         <id>https://www.zjp666.cf/post/an-zhuang-mysql/</id>

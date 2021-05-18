@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.zjp666.cf</id>
     <title>沐风小站</title>
-    <updated>2021-02-09T02:01:25.874Z</updated>
+    <updated>2021-05-18T15:05:17.529Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://www.zjp666.cf"/>
     <link rel="self" href="https://www.zjp666.cf/atom.xml"/>
@@ -14,6 +14,27 @@
     <logo>https://www.zjp666.cf/images/avatar.png</logo>
     <icon>https://www.zjp666.cf/favicon.ico</icon>
     <rights>All rights reserved 2021, 沐风小站</rights>
+    <entry>
+        <title type="html"><![CDATA[Linux基础命令复习]]></title>
+        <id>https://www.zjp666.cf/post/linux-ji-chu-ming-ling-fu-xi/</id>
+        <link href="https://www.zjp666.cf/post/linux-ji-chu-ming-ling-fu-xi/">
+        </link>
+        <updated>2021-05-18T14:56:57.000Z</updated>
+        <summary type="html"><![CDATA[<p>😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊🤡😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊🤡😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊</p>
+<!-- more -->
+<p><img src="https://www.zjp666.cf/post-images/1621349856692.PNG" alt="" loading="lazy"><br>
+<img src="https://www.zjp666.cf/post-images/1621349866474.PNG" alt="" loading="lazy"><br>
+<img src="https://www.zjp666.cf/post-images/1621349873664.PNG" alt="" loading="lazy"><br>
+<img src="https://www.zjp666.cf/post-images/1621349883486.PNG" alt="" loading="lazy"><br>
+<img src="https://www.zjp666.cf/post-images/1621349894772.PNG" alt="" loading="lazy"><br>
+<img src="https://www.zjp666.cf/post-images/1621349901477.PNG" alt="" loading="lazy"><br>
+<img src="https://www.zjp666.cf/post-images/1621349908568.PNG" alt="" loading="lazy"><br>
+<img src="https://www.zjp666.cf/post-images/1621349914886.PNG" alt="" loading="lazy"><br>
+<img src="https://www.zjp666.cf/post-images/1621349920471.PNG" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[安装mysql]]></title>
         <id>https://www.zjp666.cf/post/an-zhuang-mysql/</id>

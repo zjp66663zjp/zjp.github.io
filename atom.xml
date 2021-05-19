@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.zjp666.cf</id>
     <title>沐风小站</title>
-    <updated>2021-05-18T15:08:21.529Z</updated>
+    <updated>2021-05-19T14:09:45.597Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://www.zjp666.cf"/>
     <link rel="self" href="https://www.zjp666.cf/atom.xml"/>
@@ -14,6 +14,23 @@
     <logo>https://www.zjp666.cf/images/avatar.png</logo>
     <icon>https://www.zjp666.cf/favicon.ico</icon>
     <rights>All rights reserved 2021, 沐风小站</rights>
+    <entry>
+        <title type="html"><![CDATA[Linux基础命令复习二]]></title>
+        <id>https://www.zjp666.cf/post/linux-ji-chu-ming-ling-fu-xi-er/</id>
+        <link href="https://www.zjp666.cf/post/linux-ji-chu-ming-ling-fu-xi-er/">
+        </link>
+        <updated>2021-05-19T14:01:30.000Z</updated>
+        <content type="html"><![CDATA[<p>❤️❤️❤️❤️💛💛💛💛💚💚💚💚💙💙💙💙💜💜💜💜🖤🖤🖤🖤💔💔💔💔❣️❣️❣️❣️💕💕💕💕💞💞💞💞💓💓<br>
+<img src="https://www.zjp666.cf/post-images/1621433206362.PNG" alt="" loading="lazy"><br>
+<img src="https://www.zjp666.cf/post-images/1621433213951.PNG" alt="" loading="lazy"><br>
+<img src="https://www.zjp666.cf/post-images/1621433221409.PNG" alt="" loading="lazy"><br>
+<img src="https://www.zjp666.cf/post-images/1621433227150.PNG" alt="" loading="lazy"><br>
+<img src="https://www.zjp666.cf/post-images/1621433232316.PNG" alt="" loading="lazy"><br>
+<img src="https://www.zjp666.cf/post-images/1621433339411.PNG" alt="" loading="lazy"><br>
+<img src="https://www.zjp666.cf/post-images/1621433356011.PNG" alt="" loading="lazy"><br>
+<img src="https://www.zjp666.cf/post-images/1621433270396.PNG" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Linux基础命令复习]]></title>
         <id>https://www.zjp666.cf/post/linux-ji-chu-ming-ling-fu-xi/</id>
